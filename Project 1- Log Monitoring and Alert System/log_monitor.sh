@@ -24,7 +24,7 @@ psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -c "$CREATE_NEW_TAB
 #filter the log file for only logs that FATAL or ERROR, and not contain (rd), indicating the line hasn't been read yet
 buffer=$(grep -E 'FATAL|ERROR' /var/log/app.log | grep -v ' (rd) ')
 
-#add (rd) to the beginning of each line, to indicate, it's already been read
+#add (rd) to the beginning of each line of the file containing the generated logs, to indicate each log has already been read
 sed -i -E '/ERROR|FATAL/{ /\(rd\)/!s/^/ (rd) /; }' /var/log/app.log
 
 #Loop through each line in the buffer, and extract out the timestamps, error type and error message of each line
